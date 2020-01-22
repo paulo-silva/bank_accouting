@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  web:
+    build:
+      context: .
+    volumes:
+      - type: bind
+        source: .
+        target: /home/paulo-silva/app
+      - type: volume
+        source: deps
+        target: /home/paulo-silva/app/deps
+      - type: volume
+        source: build
+        target: /home/paulo-silva/app/build
+    environment:
+      - DATABASE_URL=postgres://postgres@db:5432/medium_dev
+    depends_on:
+      - db
+    ports:
+      - "4000:4000"
+    command: './run.sh'
+  db:
+    image: postgres:12.1-alpine
+    command: 'postgres -c "max_connections=200"'
+    volumes:
+      - type: volume
+        source: postgres-data
+        target: /var/lib/postgresql/data
+        volume:
+          nocopy: true
+volumes:
+  postgres-data:
+  deps:
+  build:
