@@ -10,6 +10,10 @@ defmodule BankAccountingWeb.AccountView do
     %{accounts: accounts}
   end
 
+  def render("show.json", %{account: account}) do
+    %{account: Account.to_struct(account)}
+  end
+
   def render("create.json", %{account: account}) do
     %{account: Account.to_struct(account)}
   end

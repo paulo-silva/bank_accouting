@@ -7,6 +7,17 @@ defmodule BankAccountingWeb.AccountController do
     render(conn, "index.json", accounts: Accounts.list_accounts())
   end
 
+  def show(conn, %{"id" => account_id}) do
+    try do
+      account = Accounts.get_account!(account_id)
+
+      render(conn, "show.json", account: account)
+    rescue
+      Ecto.NoResultsError ->
+        send_resp(conn, 404, "")
+    end
+  end
+
   def create(conn, %{"account" => %{"amount" => _amount} = attrs}) do
     case Accounts.register_account(attrs) do
       {:ok, account} ->

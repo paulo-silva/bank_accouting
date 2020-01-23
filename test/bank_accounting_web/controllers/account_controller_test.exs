@@ -52,4 +52,22 @@ defmodule BankAccountingWeb.AccountControllerTest do
              }
     end
   end
+
+  describe "GET /accounts/:id" do
+    test "with valid account id returns account info", %{conn: conn} do
+      {:ok, %Account{id: account_id}} = Accounts.register_account(%{amount: 89.90})
+
+      conn = get(conn, Routes.account_path(conn, :show, account_id))
+
+      assert json_response(conn, 200) == %{
+               "account" => %{"id" => account_id, "amount" => "89.9"}
+             }
+    end
+
+    test "with invalid account id does not return account info", %{conn: conn} do
+      conn = get(conn, Routes.account_path(conn, :show, 1))
+
+      assert conn.status == 404
+    end
+  end
 end
