@@ -70,4 +70,35 @@ defmodule BankAccountingWeb.AccountControllerTest do
       assert conn.status == 404
     end
   end
+
+  describe "PUT /accounts/id" do
+    test "with valid account id and attributes update account", %{conn: conn} do
+      {:ok, %Account{id: account_id}} = Accounts.register_account(%{amount: 89.90})
+
+      conn = put(conn, Routes.account_path(conn, :show, account_id), account: %{amount: 55.80})
+
+      assert json_response(conn, 200) == %{
+               "account" => %{"id" => account_id, "amount" => "55.8"}
+             }
+    end
+
+    test "with invalid attributes does not update account", %{conn: conn} do
+      {:ok, %Account{id: account_id}} = Accounts.register_account(%{amount: 89.90})
+
+      conn = put(conn, Routes.account_path(conn, :show, account_id), account: %{amount: -1})
+
+      assert json_response(conn, 422) == %{
+               "errors" => %{"amount" => ["must be greater than or equal to 0"]}
+             }
+
+      assert %Account{amount: %Decimal{coef: 899, exp: -1, sign: 1}} =
+               Accounts.get_account!(account_id)
+    end
+
+    test "with invalid account id does not update account", %{conn: conn} do
+      conn = put(conn, Routes.account_path(conn, :show, 1), account: %{amount: 55.80})
+
+      assert conn.status == 404
+    end
+  end
 end

@@ -32,4 +32,24 @@ defmodule BankAccountingWeb.AccountController do
         |> render("422.json", changeset: changeset)
     end
   end
+
+  def update(conn, %{"id" => account_id, "account" => %{"amount" => _amount} = attrs}) do
+    try do
+      account = Accounts.get_account!(account_id)
+
+      case Accounts.update_account(account, attrs) do
+        {:ok, account} ->
+          render(conn, "update.json", account: account)
+
+        {:error, changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> put_view(BankAccountingWeb.ErrorView)
+          |> render("422.json", changeset: changeset)
+      end
+    rescue
+      Ecto.NoResultsError ->
+        send_resp(conn, 404, "")
+    end
+  end
 end
