@@ -104,4 +104,38 @@ defmodule BankAccounting.Accounts.TransfersTest do
       assert Transfers.list_account_transfers(origin_account) == []
     end
   end
+
+  describe "calc_account_balance/1" do
+    setup do
+      {:ok, origin_account} = Accounts.register_account(%{amount: 0})
+      {:ok, destiny_account} = Accounts.register_account(%{amount: 0})
+
+      {:ok, origin_account: origin_account, destiny_account: destiny_account}
+    end
+
+    test "with account that has transfers calcs balance", %{
+      origin_account: origin_account,
+      destiny_account: destiny_account
+    } do
+      Transfers.register_transfer(%{
+        origin_account: origin_account,
+        destiny_account: destiny_account,
+        amount: 50
+      })
+
+      Transfers.register_transfer(%{
+        origin_account: destiny_account,
+        destiny_account: origin_account,
+        amount: 25
+      })
+
+      assert {:ok, %Decimal{coef: 25, exp: 0, sign: 1}} =
+               Transfers.calc_account_balance(destiny_account)
+    end
+
+    test "with account that has no transfers returns 0", %{origin_account: origin_account} do
+      assert {:ok, %Decimal{coef: 0, exp: 0, sign: 1}} =
+               Transfers.calc_account_balance(origin_account)
+    end
+  end
 end
