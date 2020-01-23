@@ -101,4 +101,23 @@ defmodule BankAccountingWeb.AccountControllerTest do
       assert conn.status == 404
     end
   end
+
+  describe "DELETE /accounts/:id" do
+    test "with valid account id delete account", %{conn: conn} do
+      {:ok, %Account{id: account_id}} = Accounts.register_account(%{amount: 89.90})
+
+      conn = delete(conn, Routes.account_path(conn, :show, account_id))
+      conn_status = conn.status
+
+      assert conn_status == 204
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_account!(account_id) end
+    end
+
+    test "with invalid account id does not delete any account", %{conn: conn} do
+      conn = delete(conn, Routes.account_path(conn, :show, 1))
+      conn_status = conn.status
+
+      assert conn_status == 404
+    end
+  end
 end

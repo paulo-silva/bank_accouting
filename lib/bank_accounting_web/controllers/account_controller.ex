@@ -52,4 +52,17 @@ defmodule BankAccountingWeb.AccountController do
         send_resp(conn, 404, "")
     end
   end
+
+  def delete(conn, %{"id" => account_id}) do
+    try do
+      account = Accounts.get_account!(account_id)
+
+      {:ok, _account} = Accounts.delete_account(account)
+
+      send_resp(conn, 204, "")
+    rescue
+      Ecto.NoResultsError ->
+        send_resp(conn, 404, "")
+    end
+  end
 end

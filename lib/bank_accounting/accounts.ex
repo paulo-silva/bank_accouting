@@ -27,6 +27,10 @@ defmodule BankAccounting.Accounts do
     |> Repo.update()
   end
 
+  def delete_account(%Account{} = account) do
+    Repo.delete(account)
+  end
+
   @spec transfer_money(
           BankAccounting.Accounts.Account.t(),
           BankAccounting.Accounts.Account.t(),
