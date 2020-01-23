@@ -25,4 +25,31 @@ defmodule BankAccountingWeb.AccountControllerTest do
       assert json_response(conn, 200) == %{"accounts" => []}
     end
   end
+
+  describe "POST /accounts" do
+    @valid_attrs %{
+      amount: 90
+    }
+
+    @invalid_attrs %{
+      amount: -1
+    }
+
+    test "with valid data creates an account", %{conn: conn} do
+      conn = post(conn, Routes.account_path(conn, :index), account: @valid_attrs)
+
+      assert %{"account" => %{"id" => account_id, "amount" => "90"}} = json_response(conn, 201)
+
+      assert %Account{id: ^account_id, amount: %Decimal{coef: 90}} =
+               Accounts.get_account!(account_id)
+    end
+
+    test "with invalid data does not create an account", %{conn: conn} do
+      conn = post(conn, Routes.account_path(conn, :index), account: @invalid_attrs)
+
+      assert json_response(conn, 422) == %{
+               "errors" => %{"amount" => ["must be greater than or equal to 0"]}
+             }
+    end
+  end
 end
