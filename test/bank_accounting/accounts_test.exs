@@ -2,7 +2,7 @@ defmodule BankAccounting.AccountsTest do
   use BankAccounting.DataCase, async: true
 
   alias BankAccounting.Accounts
-  alias BankAccounting.Accounts.Account
+  alias BankAccounting.Accounts.{Account, Transfers, Transfer}
 
   describe "register_account/1" do
     @valid_attrs %{
@@ -34,6 +34,14 @@ defmodule BankAccounting.AccountsTest do
       assert Accounts.get_account!(origin_id).amount == Decimal.new(50)
 
       assert Accounts.get_account!(destiny_id).amount == Decimal.new(150)
+
+      assert [
+               %Transfer{
+                 origin_account_id: origin_id,
+                 destiny_account_id: destiny_id,
+                 amount: %Decimal{coef: 50}
+               }
+             ] = Transfers.list_account_transfers(origin_account)
     end
 
     test "with not enough balance does not transfer money" do

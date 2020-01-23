@@ -5,7 +5,7 @@ defmodule BankAccounting.Accounts do
 
   alias Ecto.Multi
   alias BankAccounting.Repo
-  alias BankAccounting.Accounts.Account
+  alias BankAccounting.Accounts.{Account, Transfers}
 
   def register_account(attrs \\ %{}) do
     %Account{}
@@ -34,6 +34,7 @@ defmodule BankAccounting.Accounts do
         Multi.new()
         |> Multi.run(:debit_origin_account_step, debit_account(origin, amount))
         |> Multi.run(:credit_destiny_account_step, credit_account(destiny, amount))
+        |> Multi.run(:save_transfer_step, save_transfer(origin, destiny, amount))
         |> Repo.transaction()
 
         {:ok, :transferred}
@@ -56,6 +57,16 @@ defmodule BankAccounting.Accounts do
       new_amount = Decimal.add(account.amount, amount)
 
       __MODULE__.update_account(account, %{amount: new_amount})
+    end
+  end
+
+  defp save_transfer(%Account{} = origin_account, %Account{} = destiny_account, amount) do
+    fn _repo, %{credit_destiny_account_step: %Account{}} ->
+      Transfers.register_transfer(%{
+        origin_account: origin_account,
+        destiny_account: destiny_account,
+        amount: amount
+      })
     end
   end
 end
