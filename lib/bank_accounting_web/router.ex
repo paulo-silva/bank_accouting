@@ -8,4 +8,10 @@ defmodule BankAccountingWeb.Router do
   scope "/api", BankAccountingWeb do
     pipe_through :api
   end
+
+  scope "/", BankAccountingWeb do
+    pipe_through :api
+
+    resources "/accounts", AccountController, only: [:index, :show, :create, :update, :delete]
+  end
 end
