@@ -13,6 +13,10 @@ defmodule BankAccounting.Accounts do
     |> Repo.insert()
   end
 
+  def list_accounts do
+    Repo.all(Account)
+  end
+
   def get_account!(id) do
     Repo.get!(Account, id)
   end
