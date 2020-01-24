@@ -12,7 +12,7 @@ defmodule BankAccountingWeb.AccountControllerTest do
 
       expected_result = %{
         "accounts" => [
-          %{"id" => account_id, "amount" => "89.9"}
+          %{"id" => account_id, "amount" => "R$ 89,90"}
         ]
       }
 
@@ -38,7 +38,8 @@ defmodule BankAccountingWeb.AccountControllerTest do
     test "with valid data creates an account", %{conn: conn} do
       conn = post(conn, Routes.account_path(conn, :index), account: @valid_attrs)
 
-      assert %{"account" => %{"id" => account_id, "amount" => "90"}} = json_response(conn, 201)
+      assert %{"account" => %{"id" => account_id, "amount" => "R$ 90,00"}} =
+               json_response(conn, 201)
 
       assert %Account{id: ^account_id, amount: %Decimal{coef: 90}} =
                Accounts.get_account!(account_id)
@@ -60,7 +61,7 @@ defmodule BankAccountingWeb.AccountControllerTest do
       conn = get(conn, Routes.account_path(conn, :show, account_id))
 
       assert json_response(conn, 200) == %{
-               "account" => %{"id" => account_id, "amount" => "89.9"}
+               "account" => %{"id" => account_id, "amount" => "R$ 89,90"}
              }
     end
 
@@ -78,7 +79,7 @@ defmodule BankAccountingWeb.AccountControllerTest do
       conn = put(conn, Routes.account_path(conn, :show, account_id), account: %{amount: 55.80})
 
       assert json_response(conn, 200) == %{
-               "account" => %{"id" => account_id, "amount" => "55.8"}
+               "account" => %{"id" => account_id, "amount" => "R$ 55,80"}
              }
     end
 

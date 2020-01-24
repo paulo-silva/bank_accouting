@@ -1,6 +1,7 @@
 defmodule BankAccounting.Accounts.Account do
   use Ecto.Schema
   import Ecto.Changeset
+  import BankAccounting.Helpers, only: [number_to_currency: 1]
 
   schema "accounts" do
     field :amount, :decimal
@@ -18,7 +19,7 @@ defmodule BankAccounting.Accounts.Account do
   def to_struct(%__MODULE__{} = account) do
     %{
       id: account.id,
-      amount: account.amount
+      amount: number_to_currency(account.amount)
     }
   end
 end
