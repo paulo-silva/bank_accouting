@@ -35,4 +35,19 @@ defmodule BankAccountingWeb.UserControllerTest do
            }
   end
 
+  test "with valid user id delete user", %{conn: conn} do
+    {:ok, %User{id: user_id}} =
+      Users.register_user(%{email: "tony.stark@avengers.com", password: "123456"})
+
+    conn = delete(conn, Routes.user_path(conn, :delete, user_id))
+
+    assert conn.status == 204
+    assert_raise Ecto.NoResultsError, fn -> Repo.get!(User, user_id) end
+  end
+
+  test "with invalid user id does not delete user", %{conn: conn} do
+    conn = delete(conn, Routes.user_path(conn, :delete, 1))
+
+    assert conn.status == 404
+  end
 end

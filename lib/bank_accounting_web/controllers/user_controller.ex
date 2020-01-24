@@ -18,4 +18,16 @@ defmodule BankAccountingWeb.UserController do
     end
   end
 
+  def delete(conn, %{"id" => user_id}) do
+    try do
+      user = Users.get_user!(user_id)
+
+      {:ok, _user} = Users.delete_user(user)
+
+      send_resp(conn, 204, "")
+    rescue
+      Ecto.NoResultsError ->
+        send_resp(conn, 404, "")
+    end
+  end
 end
