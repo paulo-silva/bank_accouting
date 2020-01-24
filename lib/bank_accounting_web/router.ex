@@ -13,5 +13,6 @@ defmodule BankAccountingWeb.Router do
     pipe_through :api
 
     resources "/accounts", AccountController, only: [:index, :show, :create, :update, :delete]
+    resources "/transfers", TransferController, only: [:create]
   end
 end
