@@ -7,6 +7,11 @@ defmodule BankAccountingWeb.Router do
 
   scope "/api", BankAccountingWeb do
     pipe_through :api
+
+    scope "auth" do
+      post "/sign_in", AuthController, :create
+      delete "/sign_out", AuthController, :delete
+    end
   end
 
   scope "/", BankAccountingWeb do
