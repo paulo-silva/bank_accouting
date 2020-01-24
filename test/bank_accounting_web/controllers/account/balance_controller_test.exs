@@ -44,5 +44,11 @@ defmodule BankAccountingWeb.Account.BalanceControllerTest do
                ]
              } = json_response(conn, 200)
     end
+
+    test "with invalid account returns nothing", %{conn: conn} do
+      conn = get(conn, Routes.account_balance_path(conn, :show, 1))
+
+      assert text_response(conn, 404) == "Account not exist"
+    end
   end
 end
