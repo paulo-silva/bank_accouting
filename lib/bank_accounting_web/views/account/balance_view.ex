@@ -1,4 +1,6 @@
 defmodule BankAccountingWeb.Account.BalanceView do
+  @moduledoc false
+
   use BankAccountingWeb, :view
   import BankAccounting.Helpers, only: [number_to_currency: 1]
 

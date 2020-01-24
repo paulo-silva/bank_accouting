@@ -1,4 +1,6 @@
 defmodule BankAccountingWeb.Endpoint do
+  @moduledoc false
+
   use Phoenix.Endpoint, otp_app: :bank_accounting
 
   socket "/socket", BankAccountingWeb.UserSocket,

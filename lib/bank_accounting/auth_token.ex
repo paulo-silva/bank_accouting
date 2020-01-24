@@ -1,4 +1,8 @@
 defmodule BankAccounting.AuthToken do
+  @moduledoc """
+  Defines the AuthToken, used to store authentication tokens of an user
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
   alias BankAccounting.Users.User

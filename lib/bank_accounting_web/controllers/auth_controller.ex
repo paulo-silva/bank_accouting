@@ -1,4 +1,6 @@
 defmodule BankAccountingWeb.AuthController do
+  @moduledoc false
+
   use BankAccountingWeb, :controller
 
   alias BankAccounting.Users

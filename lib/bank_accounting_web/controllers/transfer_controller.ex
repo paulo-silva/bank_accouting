@@ -1,4 +1,6 @@
 defmodule BankAccountingWeb.TransferController do
+  @moduledoc false
+
   use BankAccountingWeb, :controller
 
   alias BankAccounting.Accounts

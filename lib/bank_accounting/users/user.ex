@@ -1,4 +1,8 @@
 defmodule BankAccounting.Users.User do
+  @moduledoc """
+  Defines the User used to authenticate in BankAccounting
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -20,6 +24,10 @@ defmodule BankAccounting.Users.User do
     |> put_pass_hash()
   end
 
+  @doc """
+  Encrypts provided password before saving
+  """
+  @spec put_pass_hash(Changeset.t()) :: Changeset.t()
   def put_pass_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
@@ -30,6 +38,18 @@ defmodule BankAccounting.Users.User do
     end
   end
 
+  @doc """
+  Parses an User into a struct that can be printed as json
+
+  ## Examples
+
+    iex> BankAccounting.Users.User.to_struct(%User{id: 1, email: "tony.stark@avengers.com", ...})
+      %{
+        id: 1,
+        email: "tony.stark@avengers.com"
+      }
+  """
+  @spec to_struct(__MODULE__.t()) :: %{email: String.t(), id: Integer.t()}
   def to_struct(%__MODULE__{} = user) do
     %{
       id: user.id,

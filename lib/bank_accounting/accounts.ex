@@ -7,26 +7,35 @@ defmodule BankAccounting.Accounts do
   alias BankAccounting.Repo
   alias BankAccounting.Accounts.{Account, Transfers}
 
+  @spec register_account(Map.t()) :: {:ok, Account.t()} | {:error, Changeset.t()}
   def register_account(attrs \\ %{}) do
     %Account{}
     |> Account.changeset(attrs)
     |> Repo.insert()
   end
 
+  @spec list_accounts :: [Account.t()]
   def list_accounts do
     Repo.all(Account)
   end
 
+  @spec get_account!(Integer.t()) :: Account.t()
   def get_account!(id) do
     Repo.get!(Account, id)
   end
 
+  @spec update_account(
+          BankAccounting.Accounts.Account.t(),
+          Map.t()
+        ) :: {:ok, Account.t()} | {:error, Changeset.t()}
   def update_account(%Account{} = account, attrs) do
     account
     |> Account.changeset(attrs)
     |> Repo.update()
   end
 
+  @spec delete_account(BankAccounting.Accounts.Account.t()) ::
+          {:ok, Account.t()} | {:error, Changeset.t()}
   def delete_account(%Account{} = account) do
     Repo.delete(account)
   end
