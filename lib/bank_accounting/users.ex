@@ -8,6 +8,14 @@ defmodule BankAccounting.Users do
   alias BankAccounting.Services.Authenticator
   alias BankAccounting.Users.User
 
+  def get_user!(id) do
+    Repo.get!(User, id)
+  end
+
+  def delete_user(%User{} = user) do
+    Repo.delete(user)
+  end
+
   def register_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
