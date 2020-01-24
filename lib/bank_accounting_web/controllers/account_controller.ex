@@ -1,4 +1,6 @@
 defmodule BankAccountingWeb.AccountController do
+  @moduledoc false
+
   use BankAccountingWeb, :controller
 
   alias BankAccounting.Accounts

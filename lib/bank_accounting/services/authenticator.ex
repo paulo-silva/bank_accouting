@@ -1,4 +1,8 @@
 defmodule BankAccounting.Services.Authenticator do
+  @moduledoc """
+  Service that handle user authentication
+  """
+
   @seed System.get_env("AUTH_SEED", "user token")
   @secret System.get_env("AUTH_SECRET", "CHANGE_ME_k7kTxvFAgeBvAVA0OR1vkPbTi8mZ5m")
   @one_day_in_seconds 86400

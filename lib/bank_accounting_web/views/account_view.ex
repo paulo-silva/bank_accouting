@@ -1,4 +1,6 @@
 defmodule BankAccountingWeb.AccountView do
+  @moduledoc false
+
   use BankAccountingWeb, :view
   alias BankAccounting.Accounts.Account
 

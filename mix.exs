@@ -10,7 +10,15 @@ defmodule BankAccounting.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      name: "BankAccounting",
+      source_url: "https://github.com/paulo-silva/bank_accouting",
+      docs: [
+        main: "BankAccounting",
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -42,8 +50,9 @@ defmodule BankAccounting.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:number, "~> 1.0.1"},
-      {:comeonin, "~> 5.1.1"},
-      {:bcrypt_elixir, "~> 2.0.0"}
+      {:bcrypt_elixir, "~> 2.1.0"},
+      {:ex_doc, "~> 0.21.2", only: :dev, runtime: false},
+      {:inch_ex, "~> 2.0", only: :dev}
     ]
   end
 

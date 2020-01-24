@@ -1,8 +1,13 @@
 defmodule BankAccounting.Accounts.Transfers do
+  @moduledoc """
+  The Transfers context.
+  """
+
   import Ecto.Query
   alias BankAccounting.Repo
   alias BankAccounting.Accounts.{Account, Transfer}
 
+  @spec calc_account_balance(BankAccounting.Accounts.Account.t()) :: {:ok, Decimal.t()}
   def calc_account_balance(%Account{} = account) do
     account_credits =
       get_account_credits(account)
@@ -17,6 +22,7 @@ defmodule BankAccounting.Accounts.Transfers do
     {:ok, Decimal.sub(account_credits, account_debits)}
   end
 
+  @spec list_account_transfers(BankAccounting.Accounts.Account.t()) :: [Transfer.t()]
   def list_account_transfers(%Account{id: account_id}) do
     list_transfers_query()
     |> where([t], t.origin_account_id == ^account_id)
@@ -24,6 +30,11 @@ defmodule BankAccounting.Accounts.Transfers do
     |> Repo.all()
   end
 
+  @spec register_transfer(%{
+          amount: any,
+          destiny_account: BankAccounting.Accounts.Account.t(),
+          origin_account: BankAccounting.Accounts.Account.t()
+        }) :: {:ok, Transfer.t()} | {:error, Changeset.t()}
   def register_transfer(%{
         origin_account: %Account{} = origin_account,
         destiny_account: %Account{} = destiny_account,
