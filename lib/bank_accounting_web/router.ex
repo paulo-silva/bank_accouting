@@ -5,10 +5,14 @@ defmodule BankAccountingWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :authenticate do
+    plug BankAccountingWeb.Plugs.Authenticate
+  end
+
   scope "/api", BankAccountingWeb do
     pipe_through :api
 
-    scope "auth" do
+    scope "/auth" do
       post "/sign_in", AuthController, :create
       delete "/sign_out", AuthController, :delete
     end
