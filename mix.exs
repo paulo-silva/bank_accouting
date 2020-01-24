@@ -43,7 +43,9 @@ defmodule BankAccounting.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:number, "~> 1.0.1"},
       {:comeonin, "~> 5.1.1"},
-      {:bcrypt_elixir, "~> 2.0.0"}
+      {:bcrypt_elixir, "~> 2.0.0"},
+      {:ex_doc, "~> 0.21.2", only: :dev, runtime: false},
+      {:inch_ex, "~> 2.0", only: :docs}
     ]
   end
 
