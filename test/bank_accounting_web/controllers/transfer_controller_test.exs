@@ -3,8 +3,20 @@ defmodule BankAccountingWeb.TransferControllerTest do
 
   alias BankAccounting.Accounts
   alias BankAccounting.Accounts.Account
+  alias BankAccounting.Users
 
-  describe "POST /transfers" do
+  describe "with a logged-in user" do
+    setup %{conn: conn} do
+      {:ok, user} = Users.register_user(%{email: "tony.stark@avengers.com", password: "secret"})
+      {:ok, auth_token} = Users.sign_in_user(user.email, user.password)
+
+      conn =
+        conn
+        |> put_req_header("authorization", "Bearer #{auth_token.token}")
+
+      {:ok, conn: conn}
+    end
+
     test "with valid data transfer money", %{conn: conn} do
       {:ok, %Account{id: origin_account_id}} = Accounts.register_account(%{amount: 100})
       {:ok, %Account{id: destiny_account_id}} = Accounts.register_account(%{amount: 0})
@@ -44,5 +56,12 @@ defmodule BankAccountingWeb.TransferControllerTest do
       assert %Account{id: ^destiny_account_id, amount: %Decimal{coef: 0}} =
                Accounts.get_account!(destiny_account_id)
     end
+  end
+
+  test "requires user authentication on action", %{conn: conn} do
+    conn = post(conn, Routes.transfer_path(conn, :create), %{})
+
+    assert conn.status == 401
+    assert conn.halted
   end
 end

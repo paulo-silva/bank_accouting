@@ -8,6 +8,12 @@ defmodule BankAccounting.Users do
   alias BankAccounting.Services.Authenticator
   alias BankAccounting.Users.User
 
+  def register_user(attrs \\ %{}) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def sign_in_user(email, password) do
     case Bcrypt.check_pass(Repo.get_by(User, email: email), password) do
       {:ok, user} ->

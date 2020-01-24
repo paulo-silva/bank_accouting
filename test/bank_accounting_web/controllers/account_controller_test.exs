@@ -3,8 +3,20 @@ defmodule BankAccountingWeb.AccountControllerTest do
 
   alias BankAccounting.Accounts
   alias BankAccounting.Accounts.Account
+  alias BankAccounting.Users
 
-  describe "GET /accounts" do
+  describe "with a logged-in user" do
+    setup %{conn: conn} do
+      {:ok, user} = Users.register_user(%{email: "tony.stark@avengers.com", password: "secret"})
+      {:ok, auth_token} = Users.sign_in_user(user.email, user.password)
+
+      conn =
+        conn
+        |> put_req_header("authorization", "Bearer #{auth_token.token}")
+
+      {:ok, conn: conn}
+    end
+
     test "list accounts on index when they exists", %{conn: conn} do
       {:ok, %Account{id: account_id}} = Accounts.register_account(%{amount: 89.90})
 
@@ -24,19 +36,9 @@ defmodule BankAccountingWeb.AccountControllerTest do
 
       assert json_response(conn, 200) == %{"accounts" => []}
     end
-  end
-
-  describe "POST /accounts" do
-    @valid_attrs %{
-      amount: 90
-    }
-
-    @invalid_attrs %{
-      amount: -1
-    }
 
     test "with valid data creates an account", %{conn: conn} do
-      conn = post(conn, Routes.account_path(conn, :index), account: @valid_attrs)
+      conn = post(conn, Routes.account_path(conn, :index), account: %{amount: 90})
 
       assert %{"account" => %{"id" => account_id, "amount" => "R$ 90,00"}} =
                json_response(conn, 201)
@@ -46,15 +48,13 @@ defmodule BankAccountingWeb.AccountControllerTest do
     end
 
     test "with invalid data does not create an account", %{conn: conn} do
-      conn = post(conn, Routes.account_path(conn, :index), account: @invalid_attrs)
+      conn = post(conn, Routes.account_path(conn, :index), account: %{amount: -1})
 
       assert json_response(conn, 422) == %{
                "errors" => %{"amount" => ["must be greater than or equal to 0"]}
              }
     end
-  end
 
-  describe "GET /accounts/:id" do
     test "with valid account id returns account info", %{conn: conn} do
       {:ok, %Account{id: account_id}} = Accounts.register_account(%{amount: 89.90})
 
@@ -70,9 +70,7 @@ defmodule BankAccountingWeb.AccountControllerTest do
 
       assert conn.status == 404
     end
-  end
 
-  describe "PUT /accounts/id" do
     test "with valid account id and attributes update account", %{conn: conn} do
       {:ok, %Account{id: account_id}} = Accounts.register_account(%{amount: 89.90})
 
@@ -101,9 +99,7 @@ defmodule BankAccountingWeb.AccountControllerTest do
 
       assert conn.status == 404
     end
-  end
 
-  describe "DELETE /accounts/:id" do
     test "with valid account id delete account", %{conn: conn} do
       {:ok, %Account{id: account_id}} = Accounts.register_account(%{amount: 89.90})
 
@@ -120,5 +116,19 @@ defmodule BankAccountingWeb.AccountControllerTest do
 
       assert conn_status == 404
     end
+  end
+
+  test "requires user authentication on all actions", %{conn: conn} do
+    [
+      get(conn, Routes.account_path(conn, :index)),
+      get(conn, Routes.account_path(conn, :show, 123)),
+      post(conn, Routes.account_path(conn, :create, %{})),
+      put(conn, Routes.account_path(conn, :update, 123, %{})),
+      delete(conn, Routes.account_path(conn, :delete, 123))
+    ]
+    |> Enum.each(fn conn ->
+      assert conn.status == 401
+      assert conn.halted
+    end)
   end
 end
