@@ -22,6 +22,10 @@ defmodule BankAccountingWeb.Router do
       resources "/transfers", TransferController, only: [:create]
     end
 
+    scope "/" do
+      resources "/users", UserController, only: [:create, :delete]
+    end
+
     scope "/auth" do
       post "/sign_in", AuthController, :create
       delete "/sign_out", AuthController, :delete

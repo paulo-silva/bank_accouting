@@ -29,4 +29,11 @@ defmodule BankAccounting.Users.User do
         changeset
     end
   end
+
+  def to_struct(%__MODULE__{} = user) do
+    %{
+      id: user.id,
+      email: user.email
+    }
+  end
 end
