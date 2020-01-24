@@ -3,6 +3,7 @@ defmodule BankAccounting.Users.User do
   import Ecto.Changeset
 
   schema "users" do
+    has_many :auth_tokens, BankAccounting.AuthToken
     field :email, :string
     field :password_hash, :string
     field :password, :string, virtual: true
