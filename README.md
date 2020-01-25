@@ -1,6 +1,6 @@
 # BankAccounting
 
-BankAccounting is an API application that manage banking accounts, allowing to make transfers between them and checking its balance.
+BankAccounting is an API application that manages banking accounts, allowing to make transfers between them and checking its balance.
 
 ## Getting Started
 
@@ -14,7 +14,7 @@ To start using BankAccounting you can simply use docker-compose:
 $ docker-compose up -d
 ```
 
-The command above will setup a PostgreSQL image, will install the project dependencies and will start the Phoenix server.
+The command above will set up a PostgreSQL image, will install the project dependencies and will start the Phoenix server.
 
 ### Manual Installation
 
@@ -30,7 +30,7 @@ After Phoenix server start, you can access BankAccounting by `localhost:4000` vi
 
 ## Features
 
-Most of BankAccounting features are protected by an authentication layer, so the first step is to know how we create an user in our application and use it to access other features. Check it below:
+Most of BankAccounting features are protected by an authentication layer, so the first step is to know how we create a user in our application and use it to access other features. Check it below:
 
 <details>
   <summary><b>Creating a new User</b></summary>
@@ -56,7 +56,7 @@ Most of BankAccounting features are protected by an authentication layer, so the
 </details>
 
 
-Great! Now we have an user that we can use to access other API routes, but first we need to generate an authentication token that will be provided in `Authorization` request header. You can make it using the request below:
+Great! Now we have a user that we can use to access other API routes, but first, we need to generate an authentication token that will be provided in `Authorization` request header. You can make it using the request below:
 
 <details>
   <summary><b>Generating authorization token</b></summary>
@@ -83,7 +83,7 @@ Great! Now we have an user that we can use to access other API routes, but first
   ```
 </details>
 
-For some reason, like security issue, you may want to exclude the authorization token, to do it, you can use the following endpoint:
+For some reason, like a security issue, you may want to exclude the authorization token, to do it, you can use the following endpoint:
 
 <details>
   <summary><b>Excluding authorization token</b></summary>
@@ -249,13 +249,9 @@ For some reason, like security issue, you may want to exclude the authorization 
   ```
 </details>
 
-
-## Bug reports
-TODO
-
 ## Contributing
 
-If you're considering to contribute with this project, than Thank you :heart:! We have a guide below that can help you
+If you're considering to contribute with this project than Thank you :heart:! We have a guide below that can help you
 start to contribute with the project:
 
 First, you can contribute in many ways! For example:
