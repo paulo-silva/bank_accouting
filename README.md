@@ -1,4 +1,5 @@
 # BankAccounting
+[![CircleCI](https://circleci.com/gh/paulo-silva/bank_accouting.svg?style=svg&circle-token=16ac96ce5b8014a8ea22d67d7d5a9fcc2661fd02)](https://circleci.com/gh/paulo-silva/bank_accouting)
 
 BankAccounting is an API application that manages banking accounts, allowing to make transfers between them and checking its balance.
 
