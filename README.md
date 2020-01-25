@@ -12,7 +12,7 @@ BankAccounting was developed using Phoenix framework (`v.1.4.11`) and PostgreSQL
 To start using BankAccounting you can simply use docker-compose:
 
 ```shell
-$ docker-compose up -d
+$ docker-compose up
 ```
 
 The command above will set up a PostgreSQL image, will install the project dependencies and will start the Phoenix server.
