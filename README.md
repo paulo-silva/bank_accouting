@@ -22,9 +22,10 @@ The command above will set up a PostgreSQL image, will install the project depen
 If you prefer, you can setup BankAccouting manually, following the steps below:
 
 1. Install Elixir `~> 1.9.4` (you can use a version manager like [asdf](<https://asdf-vm.com/#/core-manage-asdf-vm>) for it);
-2. Install dependencies with `mix deps.get`;
-3. Create database and run its migrations with `mix ecto.setup`;
-4. Start Phoenix endpoint with `mix phx.server`;
+2. Install PostgreSQL `~> 11`;
+3. Install dependencies with `mix deps.get`;
+4. Create database and run its migrations with `mix ecto.setup`;
+5. Start Phoenix endpoint with `mix phx.server`;
 
 
 After Phoenix server start, you can access BankAccounting by `localhost:4000` via an API client, like Postman for example.
