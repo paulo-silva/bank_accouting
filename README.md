@@ -254,4 +254,33 @@ For some reason, like security issue, you may want to exclude the authorization 
 TODO
 
 ## Contributing
-TODO
+
+If you're considering to contribute with this project, than Thank you :heart:! We have a guide below that can help you
+start to contribute with the project:
+
+First, you can contribute in many ways! For example:
+
+- Add/Update documentation and "how-to" to README.
+- Improve the existing feature examples.
+- Hack on BankAccouting itself by fixing/reporting bugs you've found or adding new features to BankAccounting.
+
+When contributing to BankAccounting, we ask that you:
+
+- Provide information about what you plan to do in the GitHub Issue Tracker so we can provide feedback.
+- Provide tests and documentation whenever possible. It is very unlikely that we will accept new features into BankAccounting
+without the proper testing and documentation.
+- Open a GitHub Pull Request and we will review your contribution and respond as quicly as possible.
+
+### Running testing
+
+You can run the entire suite test with the following command:
+
+```bash
+$ mix test
+```
+
+To run a single test, provide the filename:
+
+```bash
+$ mix test test/bank_accounting_web/controllers/user_controller_test.exs
+```
