@@ -68,9 +68,7 @@ Great! Now we have a user that we can use to access other API routes, but first,
 
   #### Request Body
   ```json
-  {
-      "user": { "email": "tony.stark@avengers.com", "password": "love-you-3-thousand" }
-  }
+  { "email": "tony.stark@avengers.com", "password": "love-you-3-thousand" }
   ```
 
   #### Response
@@ -239,7 +237,7 @@ For some reason, like a security issue, you may want to exclude the authorizatio
   #### Request Body
   ```json
   {
-    "source_account_id": 1, "destiny_account_id": 2, "amount": 29.90
+    "source_account_id": 1, "destiny_account_id": 2, "amount": "29.90"
   }
   ```
 
